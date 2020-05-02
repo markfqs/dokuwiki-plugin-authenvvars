@@ -2,6 +2,6 @@ base   authenvvars
 author Christian Hoffmann
 email  christian@lehrer-hoffmann.de
 date   2020-05-02
-name   HTTP Envvars Auth plugin
+name   Webserver Envvars Auth plugin
 desc   Authenticate against environment variables
 url    https://www.dokuwiki.org/plugin:authenvvars
