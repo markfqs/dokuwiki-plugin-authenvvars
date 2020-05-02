@@ -1,2 +1,2 @@
 # dokuwiki-plugin-authenvvars
-Dokuwikiplugin for authentication against webserv environment variables
+Dokuwikiplugin for authentication against webserver environment variables
