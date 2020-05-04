@@ -9,4 +9,6 @@ $conf['useridvar']   = 'REMOTE_USER';
 $conf['usernamevar'] = 'REMOTE_USERNAME';
 $conf['emailvar']    = 'REMOTE_EMAIL';
 $conf['groupsvar']   = 'REMOTE_GROUPS';
+$conf['groupformat'] = 'json';
 $conf['groupattr']   = '';
+$conf['groupsep']    = ';';
