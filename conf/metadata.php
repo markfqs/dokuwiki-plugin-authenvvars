@@ -9,4 +9,6 @@ $meta['useridvar']   = array('string', '_cautionList' => array('plugin____authht
 $meta['usernamevar'] = array('string');
 $meta['emailvar']    = array('string');
 $meta['groupsvar']   = array('string');
+$meta['groupformat'] = array('multichoice', '_choices' => array('json', 'csv'));
 $meta['groupattr']   = array('string');
+$meta['groupsep'] = array('string');
