@@ -38,7 +38,7 @@ class auth_plugin_authenvvars extends DokuWiki_Auth_Plugin {
       }
       $this->userinfo['name']   = $_SERVER[$this->getConf('usernamevar')];
       $this->userinfo['mail']   = $_SERVER[$this->getConf('emailvar')];
-      $this->userinfo['grps']   = $this->createGrouparray($this->getConf('groupsvar'),$this->getConf('groupattr'));
+      $this->userinfo['grps']   = $this->createGrouparray();
     }
     catch( Exception $e ) {
       msg( $e->getMessage() );
@@ -65,8 +65,36 @@ class auth_plugin_authenvvars extends DokuWiki_Auth_Plugin {
     return true;
   }
 
-  private function createGrouparray( $groupsvar, $groupattr ) {
+  private function createGrouparray() {
+    $groupformat = $this->getConf('groupformat');
+
+    if( $groupformat == 'csv' ) {
+      return $this->createGrouparrayCsv();
+    }
+    return $this->createGrouparrayJson();
+  }
+  
+  private function createGrouparrayCsv() {
+    $groupsvar = $this->getConf('groupsvar');
+    $groupsep = $this->getConf('groupsep');
     $grouparr = array();
+    $grouparr[] = 'user';
+    if( empty($groupsvar) ) {
+      return $grouparr;
+    }
+    
+    foreach( explode( $groupsep, $_SERVER[$groupsvar]) as $value ) {
+      $grouparr[]=$value;
+    }
+    /* error_log( $this->userinfo['name'].': '.json_encode($grouparr) ); */
+    return $grouparr;
+  }
+  
+  private function createGrouparrayJson() {
+    $groupsvar = $this->getConf('groupsvar');
+    $groupattr = $this->getConf('groupattr');
+    $grouparr = array();
+    $grouparr[] = 'user';
     if( empty($groupsvar) ) {
       return $grouparr;
     }
@@ -87,6 +115,7 @@ class auth_plugin_authenvvars extends DokuWiki_Auth_Plugin {
       }
       $grouparr[] = $grpvalue;
     }
+    /* error_log( $this->userinfo['name'].': '.json_encode($grouparr) ); */
     return $grouparr;
   }
 }
