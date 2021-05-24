@@ -32,7 +32,7 @@ class action_plugin_authenvvars extends DokuWiki_Action_Plugin {
            act_redirect() instead of modifying $event->data, we make sure
            DokuWiki's entire auth logic can work, which is eg. required so that
            after a user's registration he gets logged in automatically. */
-        act_redirect($ID, 'show');
+        send_redirect($ID, '', 'show');
     }
   }
 }
