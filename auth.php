@@ -31,11 +31,11 @@ class auth_plugin_authenvvars extends DokuWiki_Auth_Plugin {
     $this->loadConfig();
     
     try {
+      if( empty($this->getConf('useridvar')) ) {
+        throw new Exception( "useridvar not configured" );
+      }
       $this->userinfo = array();
       $this->userinfo['userid'] = $_SERVER[$this->getConf('useridvar')];
-      if( empty($this->userinfo['userid']) ) {
-        throw new Exception( "userid empty. Please give correct envvar in useridvar." );        
-      }
       $this->userinfo['name']   = $_SERVER[$this->getConf('usernamevar')];
       $this->userinfo['mail']   = $_SERVER[$this->getConf('emailvar')];
       $this->userinfo['grps']   = $this->createGrouparray();
@@ -53,6 +53,9 @@ class auth_plugin_authenvvars extends DokuWiki_Auth_Plugin {
     
     /* $user ignored */
     $myuser = $this->userinfo['userid'];
+    if( empty($myuser)) {
+      return false;
+    }
     
     $USERINFO['name'] = $this->userinfo['name'];
     $USERINFO['mail'] = $this->userinfo['mail'];
