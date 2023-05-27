@@ -20,11 +20,11 @@ class auth_plugin_authenvvars extends DokuWiki_Auth_Plugin {
     
     parent::__construct();
     
-    /* No support for logout in this auth plugin. */
-    $this->cando['logout'] = false;
-    /* This plugins uses it's own authentication. */
+    /* Logout if we have a URL to do so */
+    $this->cando['logout'] = empty($this->getConf('logout_url')) ? false : true;
+    /* This plugin uses it's own authentication. */
     $this->cando['external'] = true;
-    
+
     $this->success = false;
     
     /* Load the config */
@@ -50,7 +50,8 @@ class auth_plugin_authenvvars extends DokuWiki_Auth_Plugin {
 
   public function trustExternal($user, $pass, $sticky=false) {
     global $USERINFO;
-    
+    $sticky ? $sticky = true : $sticky = false; //sanity check
+
     /* $user ignored */
     $myuser = $this->userinfo['userid'];
     if( empty($myuser)) {
@@ -64,9 +65,31 @@ class auth_plugin_authenvvars extends DokuWiki_Auth_Plugin {
     $_SERVER['REMOTE_USER']                = $myuser;
     $_SESSION[DOKU_COOKIE]['auth']['user'] = $myuser;
     $_SESSION[DOKU_COOKIE]['auth']['info'] = $USERINFO;
-    
+
     return true;
   }
+
+  /**
+   * Log off the current user [ OPTIONAL ]
+   *
+   * Is run in addition to the ususal logoff method. Should
+   * only be needed when trustExternal is implemented.
+   *
+   * @see     auth_logoff()
+   * @author  Andreas Gohr <andi@splitbrain.org>
+  */
+  public function logOff()
+  {
+    // redirect to logoff
+    $url = $this->getConf('logout_url');
+    if (!empty($url)) {
+      $return_key = $this->getConf('return_key');
+      $query_string = $return_key ? '?'.$return_key.'='.DOKU_URL.wl($ID) : '';
+      header("Location: $url{$query_string}");
+      exit();
+    }
+  }
+
 
   private function createGrouparray() {
     $groupformat = $this->getConf('groupformat');

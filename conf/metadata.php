@@ -11,4 +11,8 @@ $meta['emailvar']    = array('string');
 $meta['groupsvar']   = array('string');
 $meta['groupformat'] = array('multichoice', '_choices' => array('json', 'csv'));
 $meta['groupattr']   = array('string');
-$meta['groupsep'] = array('string');
+$meta['groupsep']    = array('string');
+
+$meta['login_url']   = array('string');
+$meta['logout_url']  = array('string');
+$meta['return_key']  = array('string');

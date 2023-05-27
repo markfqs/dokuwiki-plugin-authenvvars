@@ -12,3 +12,7 @@ $conf['groupsvar']   = 'REMOTE_GROUPS';
 $conf['groupformat'] = 'json';
 $conf['groupattr']   = '';
 $conf['groupsep']    = ';';
+
+$conf['login_url']   = '';
+$conf['logout_url']  = '';
+$conf['return_key']  = '';
